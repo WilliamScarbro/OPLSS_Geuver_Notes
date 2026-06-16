@@ -6,4 +6,6 @@
 *.pdf
 *.synctex.gz
 *.toc
-.skua/.bash_history
+.skua/
+AGENTS.md
+CLAUDE.md
