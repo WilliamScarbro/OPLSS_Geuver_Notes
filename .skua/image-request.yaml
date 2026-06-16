@@ -1,0 +1,17 @@
+# SPDX-License-Identifier: BUSL-1.1
+# Skua image request template (filled by your agent and applied by `skua adapt`)
+schemaVersion: 1
+status: draft
+summary: ""
+
+# Option A: switch to a different base image for the generated skua Dockerfile.
+baseImage: ""
+
+# Option B: adapt an existing image (used as Dockerfile FROM image).
+fromImage: ""
+
+# Apt package names to install in generated skua Dockerfile.
+packages: []
+
+# Additional setup commands (RUN lines) for generated skua Dockerfile.
+commands: []

@@ -1,0 +1,58 @@
+\documentclass[11pt]{article}
+\usepackage{graphicx}
+\usepackage[top=0.75in, bottom=1.75in, left=1in, right=1in,includefoot]
+{geometry}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage[math]{blindtext}
+
+\makeatletter
+\@ifundefined{fancyhdrbox}{%
+  \newcommand{\fancyhdrbox}[2][]{\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}%
+}{}
+\makeatother
+
+\pagestyle{fancy}
+\fancyhead[L]{\fancyhdrbox[c]{\Large \slshape \sffamily 
+Introduction to Type Theory}}
+\fancyhead[C]{}
+\fancyhead[R]{\large \sffamily \bfseries Herman Geuvers}
+\fancyfoot[L]{\fancyhdrbox[b]{\sffamily \small Compiled By: \\ 
+\normalsize \sffamily Larry Fine, Curly Howard, Moe Howard}}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\fancyhdrbox[b]{\includegraphics[width=1in]{oplssLogo.png}}}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\fancypagestyle{plain}{
+\fancyhf{}
+\fancyfoot[L]{\fancyhdrbox[b]{\sffamily \small Compiled By: \\ 
+\normalsize \sffamily Larry Fine, Curly Howard, Moe Howard}}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2ex}
+\setlength{\headheight}{1.25in}
+\setlength{\footskip}{32pt}
+\begin{document}
+
+\thispagestyle{plain}
+\begin{center}
+\includegraphics[width=3in]{oplssLogo.png}\\
+\sffamily \LARGE \slshape 
+Introduction to Type Theory ---
+\upshape Herman Geuvers\\[2ex]
+\large Lecture 1 - \slshape July 1, 2026
+\end{center}
+\blindmathtrue
+\Blindtext[1]
+\Blindenumerate
+\blindmathfalse
+\Blindtext[1]
+\blinditemize
+\Blindtext[1]
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:
