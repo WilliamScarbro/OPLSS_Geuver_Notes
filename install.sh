@@ -2,20 +2,26 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TEX_FILE="${TEX_FILE:-Notes_Template_Geuvers.tex}"
+TEX_FILE="${TEX_FILE:-Notes_Geuvers.tex}"
+
+# Notes_Geuvers.tex references \fancyhdrbox, which no standard TeX Live package provides.
+# Inject a fallback definition at build time so the source stays unmodified.
+PRETEX='\providecommand{\fancyhdrbox}[2][]{\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}'
 
 usage() {
   cat <<'USAGE'
 Usage: ./install.sh [--install-deps] [--clean]
 
-Builds the LaTeX document in this repository.
+Builds the LaTeX document in this repository. When --install-deps is
+passed, the script only installs system dependencies and exits.
 
 Options:
-  --install-deps  Install TeX build dependencies on supported systems.
+  --install-deps  Install TeX build dependencies on supported systems
+                  and exit. Does not perform a build.
   --clean         Remove generated LaTeX build files before building.
 
 Environment:
-  TEX_FILE        TeX entrypoint to build. Defaults to Notes_Template_Geuvers.tex.
+  TEX_FILE        TeX entrypoint to build. Defaults to Notes_Geuvers.tex.
 USAGE
 }
 
@@ -43,14 +49,19 @@ for arg in "$@"; do
 done
 
 install_dependencies() {
+  local sudo=""
+  if [[ "${EUID:-$(id -u)}" -ne 0 ]]; then
+    sudo="sudo"
+  fi
+
   if command -v apt-get >/dev/null 2>&1; then
-    sudo apt-get update
-    sudo apt-get install -y latexmk texlive-latex-base texlive-latex-recommended texlive-latex-extra
+    $sudo apt-get update
+    $sudo apt-get install -y latexmk texlive-latex-base texlive-latex-recommended texlive-latex-extra
     return
   fi
 
   if command -v dnf >/dev/null 2>&1; then
-    sudo dnf install -y latexmk texlive-scheme-medium texlive-blindtext texlive-fancyhdr texlive-geometry
+    $sudo dnf install -y latexmk texlive-scheme-medium texlive-blindtext texlive-fancyhdr texlive-geometry
     return
   fi
 
@@ -85,6 +96,7 @@ cd "$ROOT_DIR"
 
 if "$install_deps"; then
   install_dependencies
+  exit 0
 fi
 
 require_command latexmk
@@ -99,7 +111,8 @@ if "$clean"; then
   latexmk -C "$TEX_FILE"
 fi
 
-latexmk -pdf -interaction=nonstopmode -halt-on-error "$TEX_FILE"
+latexmk -pdf -interaction=nonstopmode -halt-on-error \
+  -usepretex="$PRETEX" "$TEX_FILE"
 
 PDF_FILE="${TEX_FILE%.tex}.pdf"
 echo "Built $PDF_FILE"

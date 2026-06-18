@@ -6,12 +6,6 @@
 \usepackage[english]{babel}
 \usepackage[math]{blindtext}
 
-\makeatletter
-\@ifundefined{fancyhdrbox}{%
-  \newcommand{\fancyhdrbox}[2][]{\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}%
-}{}
-\makeatother
-
 \pagestyle{fancy}
 \fancyhead[L]{\fancyhdrbox[c]{\Large \slshape \sffamily 
 Introduction to Type Theory}}
@@ -32,7 +26,6 @@ Introduction to Type Theory}}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{2ex}
 \setlength{\headheight}{1.25in}
-\setlength{\footskip}{32pt}
 \begin{document}
 
 \thispagestyle{plain}
